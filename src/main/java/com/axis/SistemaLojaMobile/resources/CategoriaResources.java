@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.axis.SistemaLojaMobile.Domain.Categoria;import com.sun.jdi.Method;
+import com.axis.SistemaLojaMobile.Domain.Categoria;
 
 @RestController
 @RequestMapping(value="/categorias")
