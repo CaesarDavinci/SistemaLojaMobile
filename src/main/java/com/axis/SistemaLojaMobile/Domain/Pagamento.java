@@ -12,7 +12,6 @@ import javax.persistence.OneToOne;
 
 import com.axis.SistemaLojaMobile.Domain.enums.EstadoPagamento;
 
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
