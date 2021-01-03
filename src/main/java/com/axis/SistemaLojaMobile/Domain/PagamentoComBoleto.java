@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.Entity;
 
 import com.axis.SistemaLojaMobile.Domain.enums.EstadoPagamento;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.NoArgsConstructor;
 
@@ -13,7 +14,10 @@ import lombok.NoArgsConstructor;
 public class PagamentoComBoleto extends Pagamento{
 	private static final long serialVersionUID = 1L;
 	
+	@JsonFormat(pattern="dd/MM/yyy")
 	private Date dataVencimento;
+	
+	@JsonFormat(pattern="dd/MM/yyy")
 	private Date dataPagamento;
 	
 	
