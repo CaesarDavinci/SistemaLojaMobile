@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -26,47 +28,43 @@ public class CategoriaResources {
 	@Autowired
 	private CategoriaService service;
 	
-	@RequestMapping(value="/{id}", method = RequestMethod.GET)
+	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<Categoria> find(@PathVariable Integer id) {
 		Categoria obj = service.find(id);
-		
 		return ResponseEntity.ok().body(obj);
-			
 	}
 	
-	/*Método para inserir nova categoria*/		
-	
+
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> insert(@RequestBody Categoria obj){
+	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDto) {
+		Categoria obj = service.fromDTO(objDto);
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-				.path("/{id}").buildAndExpand(obj.getId()).toUri();
+			.path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 	
-	/*Método para atualizar categoria*/		
-	
+
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
-	public ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id){
+	public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO objDto, @PathVariable Integer id) {
+		Categoria obj = service.fromDTO(objDto);
 		obj.setId(id);
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();
 	}
 	
-	/*Método para deletar categoria*/	
-	@RequestMapping(value="/{id}", method = RequestMethod.DELETE)
+
+	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
-			
 	}
 	
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<List<CategoriaDTO>> findAll() {
 		List<Categoria> list = service.findAll();
-		List<CategoriaDTO> listDTO = list.stream().map(obj -> new CategoriaDTO(obj))
-				.collect(Collectors.toList());
-		return ResponseEntity.ok().body(listDTO);
+		List<CategoriaDTO> listDto = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());  
+		return ResponseEntity.ok().body(listDto);
 	}
 	
 	@RequestMapping(value="/page", method=RequestMethod.GET)
@@ -79,4 +77,5 @@ public class CategoriaResources {
 		Page<CategoriaDTO> listDto = list.map(obj -> new CategoriaDTO(obj));  
 		return ResponseEntity.ok().body(listDto);
 	}
+	
 }

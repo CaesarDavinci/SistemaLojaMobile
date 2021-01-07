@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.axis.SistemaLojaMobile.Domain.Categoria;
+import com.axis.SistemaLojaMobile.dto.CategoriaDTO;
 import com.axis.SistemaLojaMobile.repositories.CategoriaRepository;
 import com.axis.SistemaLojaMobile.services.exception.DataIntegrityException;
 import com.axis.SistemaLojaMobile.services.exception.ObjectNotFoundException;
@@ -62,5 +63,8 @@ public class CategoriaService {
 		return repo.findAll(pageRequest);
 	}
 	
+	public Categoria fromDTO(CategoriaDTO objDTO) {
+		return new Categoria(objDTO.getId(), objDTO.getNome());
+	}
 	
 }
